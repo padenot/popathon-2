@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<title>pancarte.js shell</title>
+<meta charset=utf-8>
+<script src="raphael-min.js"></script>
+<script src="pancarte.js"></script>
+</head>
+<body>
+<video></video>
+<textarea id=points></textarea>
+<script>
+window.addEventListener("load", function() {
+  // we are actually doing work, here, confirm before quiting.
+  window.onbeforeunload = function(e) {return "dummy"};
+
+  var url = prompt("URL of the video?");
+  var v = document.querySelector("video");
+  var fps = 0;
+  var rec = null;
+  v.src = url;
+  v.addEventListener("error", function() {
+    url = prompt("Error, correct URL of the video?");
+  });
+  v.addEventListener("loadstart", function() {
+    fps = prompt("Video fps ?");
+    var rec = new PancarteRecorder(timecode, v, function() {
+      alert("ALLO"):
+    });
+  });
+});
+</script>
+</body>
+</html>
