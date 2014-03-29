@@ -15,4 +15,4 @@ Popathon #2 in Paris
 - Clickable elements in videos - DONE
 - Tracking clickable elements in video frames - PAUL
 - Interface and prototyping - BASILE
-- Retrieve tweets
+- Retrieve tweets // agregate content
