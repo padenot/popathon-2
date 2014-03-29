@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<title>pancarte.js player</title>
+<meta charset=utf-8>
+<script src="raphael-min.js"></script>
+<script src="pancarte.js"></script>
+</head>
+<body>
+<video></video>
+<button id="play"> Play </button>
+<button id="pause"> Pause </button>
+<script>
+window.addEventListener("load", function() {
+  var url = prompt("URL of the video?");
+  var v = document.querySelector("video");
+  var fps = 0;
+  var player = null;
+  v.src = url;
+  v.addEventListener("error", function() {
+    url = prompt("Error, correct URL of the video?");
+  });
+  v.addEventListener("loadstart", function() {
+    points = prompt("Paste the points here!");
+    player = new PancartePlayer(JSON.parse(points), v, function() {
+      alert("ALLLO");
+    });
+  });
+  document.getElementById("play").onclick = function () {
+    player.play();
+  }
+  document.getElementById("pause").onclick = function () {
+    player.pause();
+  }
+});
+</script>
+</body>
+</html>
+
