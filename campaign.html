@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Campaign</title>
+  <style>
+  body {
+    font-size: 16px;
+    background-color: #fafafa;
+    background-image: url(screen.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  video {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+  }
+
+  #twitterstreet {
+    position: absolute;
+    margin-top: 20%;
+    margin-left: 55%;
+  }
+
+  a {
+    background-color: DarkGrey;
+    width: 115px;
+    height: 90px;
+    text-decoration: none;
+    color: black;
+    padding:3px;
+  }
+  a#twitter {
+    opacity: 0.5;
+    transition:opacity 0.2s linear;
+    position: relative;
+    float: right;
+    margin-right: 48%;
+    margin-top: 35%;
+    -moz-transform: rotate(-15deg);
+  }
+
+  .hidden { opacity: 0; transition:opacity 0.3s linear;}
+  .unhidden { opacity: 1; transition:opacity 0.5s linear;}
+  </style>
+</head>
+<body>
+
+<!-- <video autoplay muted loop controls>
+  <source src="video.mp4">
+</video> -->
+
+<a href="javascript:unhide('twitterstreet');" id="twitter">Box to click to get Twitter</a>
+
+<a href="javascript:rehide('twitterstreet');">
+  <div id="twitterstreet" class="hidden">
+    <img src="http://657b072aab060d50f8ce-d7abb53cb376b4947d77643d4b4a48d3.r79.cf1.rackcdn.com/27572_Twitter4%20Tweet%20Details%20View%202.png" width="200px" />
+  </div>
+</a>
+
+<script type="text/javascript">
+function rehide(divID) {
+  var div = document.querySelector("#twitterstreet");
+  div.addEventListener("click", function() {
+    div.className = "hidden";
+    document.querySelector("#twitter").style.display = "block";
+  });
+}
+
+function unhide(divID) {
+  var item = document.getElementById(divID);
+  if (item) {
+    item.className=(item.className=='hidden')?'unhidden':'hidden';
+  }
+  document.querySelector("#twitter").style.display = "none";
+}
+</script>
+</body>
+</html>
