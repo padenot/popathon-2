@@ -5,6 +5,7 @@
 <meta charset=utf-8>
 <script src="raphael-min.js"></script>
 <script src="pancarte.js"></script>
+<link rel="stylesheet" type="text/css" href="shared.css">
 </head>
 <body>
 <video></video>
@@ -24,9 +25,7 @@ window.addEventListener("load", function() {
   });
   v.addEventListener("loadstart", function() {
     fps = prompt("Video fps ?");
-    var rec = new PancarteRecorder(timecode, v, function() {
-      alert("ALLO"):
-    });
+    var rec = new PancarteRecorder(document.querySelector("#points"), v, fps);
   });
 });
 </script>

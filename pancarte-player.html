@@ -5,6 +5,8 @@
 <meta charset=utf-8>
 <script src="raphael-min.js"></script>
 <script src="pancarte.js"></script>
+<script src="timecode.js"></script>
+<link rel="stylesheet" type="text/css" href="shared.css">
 </head>
 <body>
 <video></video>
@@ -16,15 +18,23 @@ window.addEventListener("load", function() {
   var v = document.querySelector("video");
   var fps = 0;
   var player = null;
+  v.addEventListener("loadedmetadata", function() {
+    // points = prompt("Paste the points here!");
+    //try {
+      // var timecode = JSON.parse(points);
+      // var timecode = JSON.parse();
+      player = new PancartePlayer(timecode, v, function() {
+        alert("ALLLO");
+      });
+   // } catch(e) {
+   //   alert("invalid json !");
+   //   // hack retrigger the prompt
+   //    v.src = url;
+   // }
+  });
   v.src = url;
   v.addEventListener("error", function() {
     url = prompt("Error, correct URL of the video?");
-  });
-  v.addEventListener("loadstart", function() {
-    points = prompt("Paste the points here!");
-    player = new PancartePlayer(JSON.parse(points), v, function() {
-      alert("ALLLO");
-    });
   });
   document.getElementById("play").onclick = function () {
     player.play();

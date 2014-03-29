@@ -1,0 +1,9 @@
+video {
+    margin: 0 auto;
+    display: block;
+}
+
+#play, #pause {
+  display:block;
+    margin:0 auto;
+}

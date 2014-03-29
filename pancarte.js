@@ -9,12 +9,11 @@ function PancartePlayer(timecode, video, callback) {
   this.holder = putOverlayOnVideo(video);
   document.body.appendChild(this.holder);
   this.r = Raphael(this.holder, this.holder.style.width, this.holder.style.height);
-  this.path = this.r.set();
 }
 
 PancartePlayer.prototype.tick = function() {
-  if (this.video.currentTime > 0.6) {
-    return;
+  if (this.video.currentTime > 6) {
+    this.video.currentTime = 0;
   }
   if (this.video.paused) {
     return;
@@ -40,7 +39,7 @@ PancartePlayer.prototype.play = function() {
     requestAnimationFrame(_this.tick.bind(_this));
   });
   this.video.play();
-  this.video.playbackRate = 0.05
+  this.video.playbackRate = 0.5;
 }
 
 PancartePlayer.prototype.clear = function() {
@@ -49,7 +48,7 @@ PancartePlayer.prototype.clear = function() {
 
 PancartePlayer.prototype.display = function(path) {
   var str = path2string(path);
-  this.r.path(str).attr({stroke: "rgba(0, 0, 0, 0.3)", fill: "rgba(0, 0, 0, 0.1)"}).click(this.callback);
+  this.r.path(str).attr({stroke: "rgba(255, 255, 255, 0.3)", fill: "rgba(255, 255, 255, 0.1)"}).click(this.callback);
 }
 
 PancartePlayer.prototype.pause = function() {
@@ -59,13 +58,13 @@ PancartePlayer.prototype.pause = function() {
 function putOverlayOnVideo(v) {
   var holder = document.createElement("div");
   holder.style.position = "absolute";
-  var rect = this.rect =v.getBoundingClientRect();
+  var rect = v.getBoundingClientRect();
   // overlay
   holder.style.top = rect.top + "px";
   holder.style.left = rect.left + "px";
   holder.style.width = rect.width + "px";
   holder.style.height = rect.height + "px";
-  // this.holder.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
+  // holder.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
   return holder;
 }
 
@@ -78,6 +77,8 @@ function PancarteRecorder(outelement, video, videofps) {
   this.startFrame();
   this.rect = video.getBoundingClientRect();
   this.holder = putOverlayOnVideo(video);
+
+  var rect = video.getBoundingClientRect();
 
   document.body.appendChild(this.holder);
   this.r = Raphael(this.holder, this.holder.style.width, this.holder.style.height);
@@ -118,7 +119,6 @@ function PancarteRecorder(outelement, video, videofps) {
       if (!dragstate.dragging) {
         return;
       }
-      console.log(e.layerX + " " + e.layerY);
       _this.r.clear();
       var str = path2string(quadFromOrigin(dragstate.down, {x: e.layerX, y: e.layerY}));
       _this.r.path(str).attr({stroke: "rgba(0, 0, 0, 0.5)", fill: "rgba(0, 0, 0, 0.3)"});
