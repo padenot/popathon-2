@@ -1,6 +1,8 @@
 body {
   font-size: 16px;
-  background-color: #fafafa;
+  background-image: url(http://www.google.com/url?sa=i&source=images&cd=&docid=xLOj4RhrzUuzcM&tbnid=ehtEIouR38ZrbM:&ved=0CAUQjBw&url=http%3A%2F%2Fwww.marketplace.org%2Fsites%2Fdefault%2Ffiles%2F143974285.jpg&ei=lQU3U6nKBKq47Aavn4HICA&psig=AFQjCNFO-pMGaTpOV3dB6Ex5nZOksJ0zQA&ust=1396201237165666);
+  background-repeat: no-repeat;
+  background-size: 100%;
   margin: 0 reset;
 }
 
@@ -9,18 +11,24 @@ body {
   padding: 0;
 }
 
-#title {
+#bg {
   width: 40%;
   height: 100vh;
+  background-color: white;
+  opacity: 0.4;
+}
+#title {
+  position: relative;
   float: right;
   position: relative;
   margin: 0 reset;
-  margin-right: 3%;
-
+  margin-left: 3%;
+  color: black;
+  opacity: 1;
 }
 
 #title h1 {
-  padding-top: 60%;
+  padding-top: 50%;
   font-size: 4em;
   font-family: 'Open Sans', sans-serif;
   display: block;
@@ -32,7 +40,7 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-#title footer {
+footer {
   position: absolute;
   bottom:0;
   width:100%;
@@ -41,6 +49,10 @@ body {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: underline;
   color: inherit;
+}
+
+p {
+  padding: 1em;
 }
