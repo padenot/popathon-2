@@ -14,7 +14,6 @@ body {
   height: 100vh;
   float: right;
   position: relative;
-  background-color: DarkGrey;
   margin: 0 reset;
   margin-right: 3%;
 
@@ -23,12 +22,14 @@ body {
 #title h1 {
   padding-top: 60%;
   font-size: 4em;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
   display: block;
+  margin-bottom: 0.5em;
 }
 
 #title p {
   display: block;
+  font-family: 'Open Sans', sans-serif;
 }
 
 #title footer {
@@ -36,7 +37,7 @@ body {
   bottom:0;
   width:100%;
   height:30px;
-  background:#6cf;
+  font-family: 'Open Sans', sans-serif;
 }
 
 a {
