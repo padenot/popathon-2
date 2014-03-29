@@ -12,7 +12,8 @@ Popathon #2 in Paris
 - Photo galery
 
 ##What needs doing
-- Clickable elements in videos - DONE
-- Tracking clickable elements in video frames - PAUL
-- Interface and prototyping - BASILE
-- Retrieve tweets // agregate content
+- Definitive video edits and mashups
+- Staging and making prototype work with Paul's framework
+- Retrieve tweets & aggregate content
+- Settle a name
+- Write intro to the project and about page
