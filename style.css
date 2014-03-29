@@ -1,8 +1,45 @@
 body {
   font-size: 16px;
   background-color: #fafafa;
+  margin: 0 reset;
 }
 
-first {
+* {
+  margin: 0;
+  padding: 0;
+}
 
+#title {
+  width: 40%;
+  height: 100vh;
+  float: right;
+  position: relative;
+  background-color: DarkGrey;
+  margin: 0 reset;
+  margin-right: 3%;
+
+}
+
+#title h1 {
+  padding-top: 60%;
+  font-size: 4em;
+  font-family: sans-serif;
+  display: block;
+}
+
+#title p {
+  display: block;
+}
+
+#title footer {
+  position: absolute;
+  bottom:0;
+  width:100%;
+  height:30px;
+  background:#6cf;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
