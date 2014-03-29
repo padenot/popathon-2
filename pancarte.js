@@ -8,7 +8,15 @@ function PancartePlayer(timecode, video, callback) {
   this.video = video;
   this.holder = putOverlayOnVideo(video);
   document.body.appendChild(this.holder);
+  this.holder.addEventListener("click", function(e) {
+    console.log("holder");
+  });
   this.r = Raphael(this.holder, this.holder.style.width, this.holder.style.height);
+  var _this = this;
+  document.addEventListener("click", function(e) {
+    // _this.pause();
+  });
+  this.lastPickedTime = 0;
 }
 
 PancartePlayer.prototype.tick = function() {
@@ -27,15 +35,18 @@ PancartePlayer.prototype.tick = function() {
     }
     prev = time;
   }
-  this.clear();
-  this.display(this.timecode[prev]);
+  console.log(this.lastPickedTime + " " + prev);
+  if (this.lastPickedTime != prev) {
+    this.clear();
+    this.display(this.timecode[prev]);
+  }
+  this.lastPickedTime = prev;
   requestAnimationFrame(this.tick.bind(this));
 }
 
 PancartePlayer.prototype.play = function() {
   var _this = this;
   this.video.addEventListener("playing", function() {
-    _this.tick();
     requestAnimationFrame(_this.tick.bind(_this));
   });
   this.video.play();
@@ -48,7 +59,10 @@ PancartePlayer.prototype.clear = function() {
 
 PancartePlayer.prototype.display = function(path) {
   var str = path2string(path);
-  this.r.path(str).attr({stroke: "rgba(255, 255, 255, 0.3)", fill: "rgba(255, 255, 255, 0.1)"}).click(this.callback);
+  var _this = this;
+  this.r.path(str).attr({stroke: "rgba(255, 255, 255, 0.3)", fill: "rgba(255, 255, 255, 0.1)"})
+                  .click(this.callback.bind(_this));
+                  //.hover( .attr({stroke: "rgba(255, 255, 255, 0.9)", fill: "rgba(255, 255, 255, 1)"}));
 }
 
 PancartePlayer.prototype.pause = function() {
