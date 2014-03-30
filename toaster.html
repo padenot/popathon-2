@@ -13,44 +13,9 @@
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <style>
-.toaster {
-  border: 1px solid black;
-  border-radius: 5px;
-  box-shadow: 4px 4px 4px black;
-  position: fixed !important;
-  bottom: -240px !important;
-  right: 20px !important;
-}
-
-@keyframes slidein {
-  0% {
-     transform: translateY(0px);
-  }
-
-  10% {
-    transform: translateY(-260px);
-  }
-
-  90% {
-    transform: translateY(-260px);
-  }
-  100% {
-     transform: translateY(-0px);
-  }
-}
-
-.toasting {
-  animation: slidein 6s ease;
-}
 
 </style>
 <script>
-function toaster(node) {
-  node.classList.add("toasting");
-  node.addEventListener('animationend', function() {
-    node.classList.remove("toasting");
-  });
-}
 
 function meh() {
   toaster(document.querySelector("#tweet"));

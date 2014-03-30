@@ -2,27 +2,20 @@
  * pancarte.js, dynamic overlay creation and playback on <video>
  */
 
-function PancartePlayer(timecode, video, callback) {
+function PancartePlayer(timecode, video, callback, events) {
   this.callback = callback;
   this.timecode = timecode;
   this.video = video;
   this.holder = putOverlayOnVideo(video);
   document.body.appendChild(this.holder);
-  this.holder.addEventListener("click", function(e) {
-    console.log("holder");
-  });
   this.r = Raphael(this.holder, this.holder.style.width, this.holder.style.height);
   var _this = this;
-  document.addEventListener("click", function(e) {
-    // _this.pause();
-  });
-  this.lastPickedTime = 0;
+  this.lastPickedTime = -1;
+  // sorted by time
+  this.events = events;
 }
 
 PancartePlayer.prototype.tick = function() {
-  if (this.video.currentTime > 6) {
-    this.video.currentTime = 0;
-  }
   if (this.video.paused) {
     return;
   }
@@ -33,6 +26,10 @@ PancartePlayer.prototype.tick = function() {
     if (this.video.currentTime < time) {
       break;
     }
+    if (this.video.currentTime < prev && time.video.currentTime > time) {
+      prev = time;
+      break;
+    }
     prev = time;
   }
   console.log(this.lastPickedTime + " " + prev);
@@ -40,6 +37,12 @@ PancartePlayer.prototype.tick = function() {
     this.clear();
     this.display(this.timecode[prev]);
   }
+
+  if (this.events[0].time < this.video.currentTime) {
+    var e = this.events.shift();
+    e.f();
+  }
+
   this.lastPickedTime = prev;
   requestAnimationFrame(this.tick.bind(this));
 }
@@ -50,7 +53,7 @@ PancartePlayer.prototype.play = function() {
     requestAnimationFrame(_this.tick.bind(_this));
   });
   this.video.play();
-  this.video.playbackRate = 0.5;
+  // this.video.playbackRate = 0.5;
 }
 
 PancartePlayer.prototype.clear = function() {
@@ -60,9 +63,12 @@ PancartePlayer.prototype.clear = function() {
 PancartePlayer.prototype.display = function(path) {
   var str = path2string(path);
   var _this = this;
-  this.r.path(str).attr({stroke: "rgba(255, 255, 255, 0.3)", fill: "rgba(255, 255, 255, 0.1)"})
-                  .click(this.callback.bind(_this));
-                  //.hover( .attr({stroke: "rgba(255, 255, 255, 0.9)", fill: "rgba(255, 255, 255, 1)"}));
+  console.log("display " + str);
+  this.r.path(str).attr({stroke: "rgba(255, 255, 255, 0.5)", fill: "rgba(255, 255, 255, 0.3)"})
+                  .click(function() {
+                    _this.callback.bind(_this)();
+                    _this.pause();
+                  });
 }
 
 PancartePlayer.prototype.pause = function() {
@@ -107,7 +113,8 @@ function PancarteRecorder(outelement, video, videofps) {
   var dragstate = {
     down: {x: 0, y: 0},
     up: {x: 0, y: 0},
-    dragging: false
+    dragging: false,
+    moved: false
   };
   function quadFromOrigin(a, b) {
     return [
@@ -124,15 +131,19 @@ function PancarteRecorder(outelement, video, videofps) {
   });
 
   this.holder.addEventListener("mouseup", function(e) {
+    dragstate.dragging = false;
+    if (!dragstate.moved) {
+      return;
+    }
     dragstate.up = {x: e.layerX, y: e.layerY};
     _this.addQuad(quadFromOrigin(dragstate.down, dragstate.up));
-    dragstate.dragging = false;
   });
 
   this.holder.addEventListener("mousemove", function(e) {
       if (!dragstate.dragging) {
         return;
       }
+    dragstate.moved = true;
       _this.r.clear();
       var str = path2string(quadFromOrigin(dragstate.down, {x: e.layerX, y: e.layerY}));
       _this.r.path(str).attr({stroke: "rgba(0, 0, 0, 0.5)", fill: "rgba(0, 0, 0, 0.3)"});
@@ -175,10 +186,13 @@ PancarteRecorder.prototype.startFrame = function() {
 }
 
 PancarteRecorder.prototype.addPoint = function(x, y) {
+  console.log(x, y);
   if (this.points[this.video.currentTime] == undefined) {
     this.points[this.video.currentTime] = [];
   }
   this.points[this.video.currentTime].push({x: x, y: y});
+  console.log(this.video.currentTime);
+  console.log(this.points[this.video.currentTime]);
   if (this.points[this.video.currentTime].length > 2) {
     this.r.clear();
     var str = path2string(this.points[this.video.currentTime]);

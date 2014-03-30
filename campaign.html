@@ -4,12 +4,16 @@
   <meta charset="utf-8">
   <title>Campaign</title>
   <link href="campaign.css" rel="stylesheet">
+  <script src="raphael-min.js"></script>
+  <script src="pancarte.js"></script>
+  <script src="journal.js"></script>
+  <script src="tweets.js"></script>
 </head>
 <body>
 
-<!-- <video autoplay muted loop controls>
-  <source src="video.mp4">
-</video> -->
+<video loop muted>
+  <source src="p.webm">
+</video>
 
 <a href="javascript:unhide('twitterstreet');" id="twitter">Box to click to get Twitter</a>
 
@@ -18,6 +22,8 @@
     <img src="http://657b072aab060d50f8ce-d7abb53cb376b4947d77643d4b4a48d3.r79.cf1.rackcdn.com/27572_Twitter4%20Tweet%20Details%20View%202.png" width="400px" />
   </div>
 </a>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <!-- Changes into lightbox -->
 <!-- An iframe is added by the script, depending on the time in the video -->
@@ -28,39 +34,71 @@
 </div>
 
 <script type="text/javascript">
-function rehide(divID) {
-  var div = document.querySelector("#twitterstreet");
-  div.addEventListener("click", function() {
-    div.className = "hidden";
-    document.querySelector("#twitter").style.display = "block";
-  });
-}
-
-function unhide(divID) {
-  var item = document.getElementById(divID);
-  if (item) {
-    item.className=(item.className=='hidden')?'unhidden':'hidden';
+  var v = document.querySelector("video");
+  function rehide(divID) {
+    var div = document.querySelector("#twitterstreet");
+    div.addEventListener("click", function() {
+      div.className = "hidden";
+      document.querySelector("#twitter").style.display = "block";
+    });
   }
-  document.querySelector("#twitter").style.display = "none";
-}
+
+  function toast(node) {
+    console.log("toasting");
+    node.classList.add("toasting");
+    node.addEventListener('animationend', function() {
+      node.classList.remove("toasting");
+      node.remove();
+    });
+  }
+
+  var tweet_events = [
+    {time: "53.0", f: function() { toast(tweet1)}},
+    {time: "152.0", f: function() { toast(tweet2)}},
+    {time: "258.7", f: function() { toast(tweet3)}},
+  ];
+
+  document.body.appendChild(tweet1);
+  document.body.appendChild(tweet2);
+  document.body.appendChild(tweet3);
+
+  function unhide(divID) {
+    var item = document.getElementById(divID);
+    if (item) {
+      item.className=(item.className=='hidden')?'unhidden':'hidden';
+    }
+    document.querySelector("#twitter").style.display = "none";
+  }
 
 var paper = document.getElementById("paper");
 var back = document.getElementById("back");
 
-paper.onclick = function fade() {
-  back.style.display = "block";
-  var getCurrentTime = document.querySelector("video").currentTime;
-  if (getCurrentTime < 15) {
-    var iframeUrl = "http://www.bbc.com/news/world-asia-26806791";
-  } if (getCurrentTime < 30) {
-    var iframeUrl = "#";
-  }
-  back.innerHTML = "<iframe src=\" " + iframeUrl + " \"></iframe>";
-}
 
-back.onclick = function fuck() {
-  back.style.display = "none";
-}
+
+  // newspaper
+  var pcrt_paper = new PancartePlayer(journal_pts, v, function () {
+    back.style.display = "block";
+    var getCurrentTime = document.querySelector("video").currentTime;
+    if (getCurrentTime < 15) {
+      var iframeUrl = "http://www.bbc.com/news/world-asia-26806791";
+    } else if (getCurrentTime < 30) {
+      var iframeUrl = "#";
+    }
+    back.innerHTML = "<iframe src=\" " + iframeUrl + " \"></iframe>";
+
+    window.addEventListener("keypress", function(e) {
+      // esc. dismisses the box and resumes playback
+      if (e.keyCode == 27) {
+        if (back.style.display != "none") {
+          back.style.display = "none";
+          back.innerHTML = "";
+          pcrt_paper.play();
+        }
+      }
+    });
+  }, tweet_events);
+
+  pcrt_paper.play();
 
 </script>
 </body>

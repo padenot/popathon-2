@@ -6,6 +6,7 @@
 <script src="raphael-min.js"></script>
 <script src="pancarte.js"></script>
 <script src="timecode.js"></script>
+<script src="journal.js"></script>
 <link rel="stylesheet" type="text/css" href="shared.css">
 </head>
 <body>
@@ -19,19 +20,19 @@ window.addEventListener("load", function() {
   var fps = 0;
   var player = null;
   v.addEventListener("loadedmetadata", function() {
-    // points = prompt("Paste the points here!");
-    //try {
-      // var timecode = JSON.parse(points);
-      // var timecode = JSON.parse();
+    points = prompt("Paste the points here!");
+    try {
+      var timecode = journal_pts;// JSON.parse(points);
+      console.log(timecode);
       player = new PancartePlayer(timecode, v, function() {
         // player.pause();
         alert("ALLLO");
       });
-   // } catch(e) {
-   //   alert("invalid json !");
-   //   // hack retrigger the prompt
-   //    v.src = url;
-   // }
+   } catch(e) {
+     alert("invalid json !");
+     // hack retrigger the prompt
+      v.src = url;
+   }
   });
   v.src = url;
   v.addEventListener("error", function() {
