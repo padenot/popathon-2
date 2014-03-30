@@ -2,15 +2,16 @@
 body {
   font-size: 16px;
   background-color: #fafafa;
-  background-image: url(screen.png);
   background-repeat: no-repeat;
   background-size: 100%;
 }
 
+/*
 * {
   margin: 0;
   padding: 0;
 }
+*/
 
 /*VIDEO position*/
 video {
@@ -20,6 +21,7 @@ video {
 }
 
 /*TWITTER*/
+/*
 #twitterstreet {
   position: absolute;
   margin-top: 20%;
@@ -49,6 +51,7 @@ img {
   margin-top: -200px;
   opacity: 0.95;
 }
+  */
 
 .hidden { opacity: 0; transition:opacity 0.3s linear;}
 .unhidden { opacity: 1; transition:opacity 0.5s linear;}
@@ -80,9 +83,36 @@ img {
   display: none; /*to change*/
 }
 
-iframe {
+iframe.newspaper {
   width: 70%;
   height: 100vh;
   margin-left: 15%;
 }
 
+.toaster {
+  position: fixed !important;
+  bottom: 0px !important;
+  right: 20px !important;
+  transform: translateY(100%);
+}
+
+@keyframes slidein {
+  0% {
+     transform: translateY(100%);
+  }
+
+  10% {
+    transform: translateY(0%);
+  }
+
+  90% {
+    transform: translateY(0%);
+  }
+  100% {
+     transform: translateY(100%);
+  }
+}
+
+.toasting {
+  animation: slidein 6s ease;
+}
