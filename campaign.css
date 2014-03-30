@@ -1,0 +1,82 @@
+/*RESET*/
+body {
+  font-size: 16px;
+  background-color: #fafafa;
+  background-image: url(screen.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/*VIDEO position*/
+video {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+}
+
+/*TWITTER*/
+#twitterstreet {
+  position: absolute;
+  margin-top: 20%;
+  margin-left: 55%;
+}
+
+a {
+  background-color: DarkGrey;
+  width: 115px;
+  height: 90px;
+  text-decoration: none;
+  color: black;
+  padding:3px;
+}
+
+a#twitter {
+  opacity: 0.5;
+  transition:opacity 0.2s linear;
+  position: relative;
+  float: right;
+  margin-right: 48%;
+  margin-top: 35%;
+  -moz-transform: rotate(-15deg);
+}
+
+img {
+  margin-top: -200px;
+  opacity: 0.95;
+}
+
+.hidden { opacity: 0; transition:opacity 0.3s linear;}
+.unhidden { opacity: 1; transition:opacity 0.5s linear;}
+
+/*PAPERS*/
+#back {
+  width: 100%;
+  height: 100%;
+  -moz-transition-duration: 1s, 1s;
+  -moz-transition-property: opacity;
+  -webkit-transition-duration: 1s, 1s;
+  -webkit-transition-property: opacity;
+  -o-transition-duration: 1s, 1s;
+  -o-transition-property: opacity;
+  background: black;
+  background-color:#404040;
+  background-image: -moz-radial-gradient(50% 50%, circle farthest-side, #222222, #000000 100%);
+  background-image: -webkit-radial-gradient(50% 50%, circle farthest-side, #222222, #000000 100%);
+  background-image: -o-radial-gradient(50% 50%, circle farthest-side, #222222, #000000 100%);
+  background-image: -ms-radial-gradient(50% 50%, circle farthest-side, #222222, #000000 100%);
+  background-image: radial-gradient(50% 50%, circle farthest-side, #222222, #000000 100%);
+  left: 0px;
+  opacity: 0.9;
+  position: fixed;
+  top: 0px;
+  transition-duration: 1s, 1s;
+  transition-property: opacity;
+  z-index: 2;
+  display: none; /*to change*/
+}
+
