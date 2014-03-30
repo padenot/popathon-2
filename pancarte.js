@@ -2,17 +2,24 @@
  * pancarte.js, dynamic overlay creation and playback on <video>
  */
 
+window.gr = null;
+
 function PancartePlayer(timecode, video, callback, events) {
   this.callback = callback;
   this.timecode = timecode;
   this.video = video;
-  this.holder = putOverlayOnVideo(video);
-  document.body.appendChild(this.holder);
-  this.r = Raphael(this.holder, this.holder.style.width, this.holder.style.height);
+  if (gr == null) {
+    this.holder = putOverlayOnVideo(video);
+    document.body.appendChild(this.holder);
+    this.r = gr = Raphael(this.holder, this.holder.style.width, this.holder.style.height);
+  } else {
+    this.r = gr
+  }
   var _this = this;
   this.lastPickedTime = -1;
   // sorted by time
-  this.events = events;
+  this.events = events || [];
+  this.svgelement = null;
 }
 
 PancartePlayer.prototype.tick = function() {
@@ -32,13 +39,14 @@ PancartePlayer.prototype.tick = function() {
     }
     prev = time;
   }
-  console.log(this.lastPickedTime + " " + prev);
   if (this.lastPickedTime != prev) {
-    this.clear();
+    if (this.svgelement) {
+      this.svgelement.remove();
+    }
     this.display(this.timecode[prev]);
   }
 
-  if (this.events[0].time < this.video.currentTime) {
+  if (this.events.length > 0 && this.events[0].time < this.video.currentTime) {
     var e = this.events.shift();
     e.f();
   }
@@ -63,8 +71,7 @@ PancartePlayer.prototype.clear = function() {
 PancartePlayer.prototype.display = function(path) {
   var str = path2string(path);
   var _this = this;
-  console.log("display " + str);
-  this.r.path(str).attr({stroke: "rgba(255, 255, 255, 0.5)", fill: "rgba(255, 255, 255, 0.3)"})
+  this.svgelement = this.r.path(str).attr({stroke: "rgba(255, 255, 255, 0.5)", fill: "rgba(255, 255, 255, 0.3)"})
                   .click(function() {
                     _this.callback.bind(_this)();
                     _this.pause();

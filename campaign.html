@@ -7,7 +7,10 @@
   <script src="raphael-min.js"></script>
   <script src="pancarte.js"></script>
   <script src="journal.js"></script>
+  <script src="flyer.js"></script>
+  <script src="computer.js"></script>
   <script src="tweets.js"></script>
+  <script src="window.js"></script>
 </head>
 <body>
 
@@ -77,8 +80,28 @@
   // newspaper
   var pcrt_paper = new PancartePlayer(journal_pts, v, function () {
     back.style.display = "block";
-    var iframeUrl = "http://www.bbc.com/news/world-asia-26806791";
-    back.innerHTML = "<iframe class=newspaper src=\" " + iframeUrl + " \"></iframe>";
+
+     if (v.currentTime < 8.0) {
+     var iframeUrl =
+     "http://tempsreel.nouvelobs.com/sondage-presidentielle-2012/20120430.OBS7359/sondage-hollande-en-tete-a-53-sarkozy-se-rapproche.html";
+     } else if (v.currentTime >= 8) {
+     var iframeUrl =
+     "http://www.bloomberg.com/news/2012-05-03/french-borrowing-costs-drop-at-last-bond-sale-before-vote.html";
+     } else if (v.currentTime > 123.3) {
+     var iframeUrl =
+     "http://www.lemonde.fr/idees/article/2012/05/04/vivre-ensemble_1695879_3232.html";
+     } else if (v.currentTime > 221.94) {
+     var iframeUrl =
+     "http://www.leparisien.fr/election-presidentielle-2012/candidats/vie-privee-vie-publique-portrait-de-francois-hollande-24-06-2011-1506848.php";
+     } else if (v.currentTime > 246.6) {
+     var iframeUrl =
+     "http://www.leparisien.fr/election-presidentielle-2012/en-images-hollande-elu-la-bastille-en-liesse-06-05-2012-1986976.php?pic=5#infoBulles1";
+     } else if (v.currentTime > 271.26) {
+     var iframeUrl =
+       "http://www.leparisien.fr/election-presidentielle-2012/candidats/en-campagne-depuis-plus-d-un-an-francois-hollande-voulait-une-belle-victoire-03-05-2012-1982850.php";
+     }
+
+    back.innerHTML = '<iframe class=lalala src="' + iframeUrl + '"></iframe>';
 
     window.addEventListener("keypress", function(e) {
       // esc. dismisses the box and resumes playback
@@ -93,6 +116,75 @@
   }, tweet_events);
 
   pcrt_paper.play();
+
+  var pcrt_flyer = new PancartePlayer(flyer_pts, v, function () {
+    back.style.display = "block";
+    var iframeUrl = "http://www.parti-socialiste.fr/dossier/le-projet-de-francois-hollande";
+    back.innerHTML = "<iframe class=lalala src=\" " + iframeUrl + " \"></iframe>";
+
+    window.addEventListener("keypress", function(e) {
+      // esc. dismisses the box and resumes playback
+      if (e.keyCode == 27) {
+        if (back.style.display != "none") {
+          back.style.display = "none";
+          back.innerHTML = "";
+          pcrt_paper.play();
+        }
+      }
+    });
+  });
+
+pcrt_flyer.play();
+
+  var pcrt_computer = new PancartePlayer(computer_pts, v, function () {
+    back.style.display = "block";
+    if (v.currentTime < 8.0) {
+      console.log("nada");
+    } else if (v.currentTime < 258.15){
+      var videoUrl = "tv-before.webm";
+    } else if (v.currentTime < 290) {
+      var videoUrl = "tv-before.webm";
+    }
+    back.innerHTML = "<video src=\" " + videoUrl + " \" style=\"width:100%\" autoplay></video>";
+
+    window.addEventListener("keypress", function(e) {
+      // esc. dismisses the box and resumes playback
+      if (e.keyCode == 27) {
+        if (back.style.display != "none") {
+          back.style.display = "none";
+          back.innerHTML = "";
+          pcrt_paper.play();
+        }
+      }
+    });
+  });
+
+pcrt_computer.play();
+
+  var pcrt_window = new PancartePlayer(window_pts, v, function () {
+    back.style.display = "block";
+    if (v.currentTime < 8.0) {
+      console.log("nada");
+    } else if (v.currentTime < 258.15){
+      var videoUrl = "tv-before.webm";
+    } else if (v.currentTime < 290) {
+      var videoUrl = "tv-before.webm";
+    }
+    back.innerHTML = "<video src=\" " + videoUrl + " \" style=\"width:100%\" autoplay></video>";
+
+    window.addEventListener("keypress", function(e) {
+      // esc. dismisses the box and resumes playback
+      if (e.keyCode == 27) {
+        if (back.style.display != "none") {
+          back.style.display = "none";
+          back.innerHTML = "";
+          pcrt_paper.play();
+        }
+      }
+    });
+  });
+
+pcrt_window.play();
 
 </script>
 </body>
