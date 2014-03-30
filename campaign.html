@@ -20,10 +20,10 @@
 </a>
 
 <!-- Changes into lightbox -->
-<div id="back">
-<!--   <iframe src="http://www.bbc.com/news/world-asia-26806791"></iframe>
- --></div>
+<!-- An iframe is added by the script, depending on the time in the video -->
+<div id="back"></div>
 
+<!-- Clicking target for the display of the lightbox and the articles iframe -->
 <div id="paper" style="width: 300px; height: 300px; background-color: blue;">
 </div>
 
@@ -44,18 +44,23 @@ function unhide(divID) {
   document.querySelector("#twitter").style.display = "none";
 }
 
-  var paper = document.getElementById("paper");
-  var back = document.getElementById("back");
+var paper = document.getElementById("paper");
+var back = document.getElementById("back");
 
-  paper.onclick = function fade() {
-    back.style.display = "block";
+paper.onclick = function fade() {
+  back.style.display = "block";
+  var getCurrentTime = document.querySelector("video").currentTime;
+  if (getCurrentTime < 15) {
     var iframeUrl = "http://www.bbc.com/news/world-asia-26806791";
-    back.innerHTML = "<iframe src=\" " + iframeUrl + " \"></iframe>";
+  } if (getCurrentTime < 30) {
+    var iframeUrl = "#";
   }
+  back.innerHTML = "<iframe src=\" " + iframeUrl + " \"></iframe>";
+}
 
-  back.onclick = function fuck() {
-    back.style.display = "none";
-  }
+back.onclick = function fuck() {
+  back.style.display = "none";
+}
 
 </script>
 </body>
