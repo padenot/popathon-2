@@ -12,26 +12,24 @@
 <body>
 
 <video loop muted>
-  <source src="p.webm">
+<source src="p.webm"></source>
 </video>
 
-<a href="javascript:unhide('twitterstreet');" id="twitter">Box to click to get Twitter</a>
+<!-- <a href="javascript:unhide('twitterstreet');" id="twitter">Box to click to get Twitter</a>
 
 <a href="javascript:rehide('twitterstreet');">
   <div id="twitterstreet" class="hidden">
     <img src="http://657b072aab060d50f8ce-d7abb53cb376b4947d77643d4b4a48d3.r79.cf1.rackcdn.com/27572_Twitter4%20Tweet%20Details%20View%202.png" width="400px" />
   </div>
-</a>
+</a> -->
 
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <!-- Changes into lightbox -->
-<!-- An iframe is added by the script, depending on the time in the video -->
 <div id="back"></div>
 
-<!-- Clicking target for the display of the lightbox and the articles iframe -->
-<div id="paper" style="width: 300px; height: 300px; background-color: blue;">
-</div>
+<!-- <div id="paper" style="width: 300px; height: 300px; background-color: blue;">
+</div> -->
 
 <script type="text/javascript">
   var v = document.querySelector("video");
@@ -55,7 +53,7 @@
   var tweet_events = [
     {time: "53.0", f: function() { toast(tweet1)}},
     {time: "152.0", f: function() { toast(tweet2)}},
-    {time: "258.7", f: function() { toast(tweet3)}},
+    {time: "258.0", f: function() { toast(tweet3)}},
   ];
 
   document.body.appendChild(tweet1);
@@ -70,21 +68,35 @@
     document.querySelector("#twitter").style.display = "none";
   }
 
-var paper = document.getElementById("paper");
-var back = document.getElementById("back");
-
+  var paper = document.getElementById("paper");
+  var back = document.getElementById("back");
 
 
   // newspaper
   var pcrt_paper = new PancartePlayer(journal_pts, v, function () {
-    back.style.display = "block";
-    var getCurrentTime = document.querySelector("video").currentTime;
-    if (getCurrentTime < 15) {
-      var iframeUrl = "http://www.bbc.com/news/world-asia-26806791";
-    } else if (getCurrentTime < 30) {
-      var iframeUrl = "#";
+    // back.style.display = "block";
+    // var iframeUrl = "http://www.bbc.com/news/world-asia-26806791";
+    // back.innerHTML = "<iframe class=newspaper src=\" " + iframeUrl + " \"></iframe>";
+
+    paper.onclick = function fade() {
+      back.style.display = "block";
+      var getCurrentTime = document.querySelector("video").currentTime;
+      if (getCurrentTime > 8.0) {
+        var iframeUrl = "http://tempsreel.nouvelobs.com/sondage-presidentielle-2012/20120430.OBS7359/sondage-hollande-en-tete-a-53-sarkozy-se-rapproche.html";
+      } else if (getCurrentTime > 117) {
+        var iframeUrl = "http://www.bloomberg.com/news/2012-05-03/french-borrowing-costs-drop-at-last-bond-sale-before-vote.html";
+      } else if (getCurrentTime > 123.3) {
+        var iframeUrl = "http://www.lemonde.fr/idees/article/2012/05/04/vivre-ensemble_1695879_3232.html";
+      } else if (getCurrentTime > 221.94) {
+        var iframeUrl = "http://www.leparisien.fr/election-presidentielle-2012/candidats/vie-privee-vie-publique-portrait-de-francois-hollande-24-06-2011-1506848.php";
+      } else if (getCurrentTime > 246.6) {
+        var iframeUrl = "http://www.leparisien.fr/election-presidentielle-2012/en-images-hollande-elu-la-bastille-en-liesse-06-05-2012-1986976.php?pic=5#infoBulles1";
+      } else if (getCurrentTime > 271.26) {
+        var iframeUrl = "http://www.leparisien.fr/election-presidentielle-2012/candidats/en-campagne-depuis-plus-d-un-an-francois-hollande-voulait-une-belle-victoire-03-05-2012-1982850.php";
+      }
+
+      back.innerHTML = "<iframe src=\" " + iframeUrl + " \"></iframe>";
     }
-    back.innerHTML = "<iframe src=\" " + iframeUrl + " \"></iframe>";
 
     window.addEventListener("keypress", function(e) {
       // esc. dismisses the box and resumes playback
