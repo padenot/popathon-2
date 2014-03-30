@@ -28,7 +28,7 @@ body {
 }
 
 #title h1 {
-  padding-top: 50%;
+  padding-top: 42%;
   font-size: 4em;
   font-family: 'Open Sans', sans-serif;
   display: block;
@@ -38,6 +38,8 @@ body {
 #title p {
   display: block;
   font-family: 'Open Sans', sans-serif;
+  padding: 0.5em;
+  font-size: 0.9em;
 }
 
 footer {
@@ -51,8 +53,4 @@ footer {
 a {
   text-decoration: underline;
   color: inherit;
-}
-
-p {
-  padding: 1em;
 }

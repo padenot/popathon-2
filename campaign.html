@@ -21,7 +21,8 @@
 
 <!-- Changes into lightbox -->
 <div id="back">
-</div>
+<!--   <iframe src="http://www.bbc.com/news/world-asia-26806791"></iframe>
+ --></div>
 
 <div id="paper" style="width: 300px; height: 300px; background-color: blue;">
 </div>
@@ -48,6 +49,8 @@ function unhide(divID) {
 
   paper.onclick = function fade() {
     back.style.display = "block";
+    var iframeUrl = "http://www.bbc.com/news/world-asia-26806791";
+    back.innerHTML = "<iframe src=\" " + iframeUrl + " \"></iframe>";
   }
 
   back.onclick = function fuck() {
