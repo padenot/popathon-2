@@ -20,6 +20,20 @@ function PancartePlayer(timecode, video, callback, events) {
   // sorted by time
   this.events = events || [];
   this.svgelement = null;
+
+  // la crotte
+  var playerX = video.getBoundingClientRect().width;
+  var playerY = video.getBoundingClientRect().height;
+  console.log(playerX);
+  console.log(playerY);
+
+  for (var i = 0; i < timecode.length; i++) {
+    var points = timecode[i];
+    for (var j = 0; j < points.length; j++) {
+      points[j].x *= ( playerX / 1680 );
+      points[j].y *= ( playerY / 945);
+    };
+  };
 }
 
 PancartePlayer.prototype.tick = function() {
@@ -81,9 +95,7 @@ PancartePlayer.prototype.display = function(path) {
 PancartePlayer.prototype.pause = function() {
   this.video.pause();
 }
-/*Set the two vars in global scope, they will get their values on lines 101-102*/
-var recorderX = 200;
-var recorderY = 200;
+
 
 function putOverlayOnVideo(v) {
   var holder = document.createElement("div");
@@ -97,8 +109,6 @@ function putOverlayOnVideo(v) {
   // holder.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
   console.log(rect);
 
-  recorderX = rect.width;
-  recorderY = rect.height;
   return holder;
 }
 
