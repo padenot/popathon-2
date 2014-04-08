@@ -2,17 +2,24 @@
  * pancarte.js, dynamic overlay creation and playback on <video>
  */
 
+window.gr = null;
+
 function PancartePlayer(timecode, video, callback, events) {
   this.callback = callback;
   this.timecode = timecode;
   this.video = video;
-  this.holder = putOverlayOnVideo(video);
-  document.body.appendChild(this.holder);
-  this.r = Raphael(this.holder, this.holder.style.width, this.holder.style.height);
+  if (gr == null) {
+    this.holder = putOverlayOnVideo(video);
+    document.body.appendChild(this.holder);
+    this.r = gr = Raphael(this.holder, this.holder.style.width, this.holder.style.height);
+  } else {
+    this.r = gr
+  }
   var _this = this;
   this.lastPickedTime = -1;
   // sorted by time
-  this.events = events;
+  this.events = events || [];
+  this.svgelement = null;
 }
 
 PancartePlayer.prototype.tick = function() {
@@ -32,13 +39,14 @@ PancartePlayer.prototype.tick = function() {
     }
     prev = time;
   }
-  console.log(this.lastPickedTime + " " + prev);
   if (this.lastPickedTime != prev) {
-    this.clear();
+    if (this.svgelement) {
+      this.svgelement.remove();
+    }
     this.display(this.timecode[prev]);
   }
 
-  if (this.events[0].time < this.video.currentTime) {
+  if (this.events.length > 0 && this.events[0].time < this.video.currentTime) {
     var e = this.events.shift();
     e.f();
   }
@@ -63,8 +71,7 @@ PancartePlayer.prototype.clear = function() {
 PancartePlayer.prototype.display = function(path) {
   var str = path2string(path);
   var _this = this;
-  console.log("display " + str);
-  this.r.path(str).attr({stroke: "rgba(255, 255, 255, 0.5)", fill: "rgba(255, 255, 255, 0.3)"})
+  this.svgelement = this.r.path(str).attr({stroke: "rgba(255, 255, 255, 0.5)", fill: "rgba(255, 255, 255, 0.3)"})
                   .click(function() {
                     _this.callback.bind(_this)();
                     _this.pause();
@@ -85,6 +92,7 @@ function putOverlayOnVideo(v) {
   holder.style.width = rect.width + "px";
   holder.style.height = rect.height + "px";
   // holder.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
+  console.log(rect);
   return holder;
 }
 
@@ -125,43 +133,47 @@ function PancarteRecorder(outelement, video, videofps) {
     ];
   }
 
-  this.holder.addEventListener("mousedown", function(e) {
-    dragstate.dragging = true;
-    dragstate.down = {x: e.layerX, y: e.layerY};
-  });
+  // this.holder.addEventListener("mousedown", function(e) {
+  //   dragstate.dragging = true;
+  //   dragstate.down = {x: e.layerX, y: e.layerY};
+  // });
 
-  this.holder.addEventListener("mouseup", function(e) {
-    dragstate.dragging = false;
-    if (!dragstate.moved) {
-      return;
-    }
-    dragstate.up = {x: e.layerX, y: e.layerY};
-    _this.addQuad(quadFromOrigin(dragstate.down, dragstate.up));
-  });
+  // this.holder.addEventListener("mouseup", function(e) {
+  //   dragstate.dragging = false;
+  //   if (!dragstate.moved) {
+  //     return;
+  //   }
+  //   dragstate.up = {x: e.layerX, y: e.layerY};
+  //   _this.addQuad(quadFromOrigin(dragstate.down, dragstate.up));
+  // });
 
-  this.holder.addEventListener("mousemove", function(e) {
-      if (!dragstate.dragging) {
-        return;
-      }
-    dragstate.moved = true;
-      _this.r.clear();
-      var str = path2string(quadFromOrigin(dragstate.down, {x: e.layerX, y: e.layerY}));
-      _this.r.path(str).attr({stroke: "rgba(0, 0, 0, 0.5)", fill: "rgba(0, 0, 0, 0.3)"});
-  });
+  // this.holder.addEventListener("mousemove", function(e) {
+  //     if (!dragstate.dragging) {
+  //       return;
+  //     }
+  //   dragstate.moved = true;
+  //     _this.r.clear();
+  //     var str = path2string(quadFromOrigin(dragstate.down, {x: e.layerX, y: e.layerY}));
+  //     _this.r.path(str).attr({stroke: "rgba(0, 0, 0, 0.5)", fill: "rgba(0, 0, 0, 0.3)"});
+  // });
 
-  // progress
-  this.progress = document.createElement("input");
-  this.progress.type = "range";
-  this.progress.style.position = "absolute";
-  this.progress.style.top = rect.bottom + 1 + "px";
-  this.progress.style.left = rect.left + "px";
-  this.progress.style.width = this.rect.width + "px";
-  this.progress.style.height= "10px";
-  this.progress.min = 0;
-  this.progress.max = this.video.duration;
-  this.progress.step = 0.01;
-  this.progress.value = 0;
-  document.body.appendChild(this.progress);
+  // // progress
+  // this.progress = document.createElement("input");
+  // this.progress.type = "range";
+  // this.progress.style.position = "fixed";
+  // this.progress.style.bottom = "0px";
+  // this.progress.style.left = "0px";
+  // this.progress.style.width = "90%";
+  // this.progress.style.height= "10px";
+  // this.progress.min = 0;
+  // this.progress.max = this.video.duration;
+  // this.progress.step = 0.01;
+  // this.progress.value = 0;
+  // var _this = this;
+  // this.progress.addEventListener("input", function (e) {
+  //   _this.video.currentTime = e.target.value;
+  // });
+  // document.body.appendChild(this.progress);
 
   window.addEventListener("keypress", function(e) {
     // letter 'n' for next
@@ -174,7 +186,7 @@ function PancarteRecorder(outelement, video, videofps) {
 PancarteRecorder.prototype.nextFrame = function() {
   this.endFrame();
   this.video.currentTime += 1 / this.videoFps;
-  this.progress.value = this.video.currentTime;
+  // this.progress.value = this.video.currentTime;
 }
 
 PancarteRecorder.prototype.resetCurrent = function() {

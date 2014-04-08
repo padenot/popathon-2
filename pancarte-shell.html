@@ -9,10 +9,9 @@
 </head>
 <body>
 <video></video>
-<textarea id=points></textarea>
+<textarea id="points"></textarea>
 <script>
 window.addEventListener("load", function() {
-  // we are actually doing work, here, confirm before quiting.
   window.onbeforeunload = function(e) {return "dummy"};
 
   var url = prompt("URL of the video?");
