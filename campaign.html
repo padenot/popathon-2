@@ -14,27 +14,25 @@
 </head>
 <body>
 
-<video loop muted>
-<source src="p.webm"></source>
+<video loop controls muted>
+  <source src="flat.webm"></source>
 </video>
 
-<a href="javascript:unhide('twitterstreet');" id="twitter">Box to click to get Twitter</a>
-
+<!-- Are these two things really useless? NOPE-->
+<!-- <a href="javascript:unhide('twitterstreet');" id="twitter">Box to click to get Twitter</a>
 <a href="javascript:rehide('twitterstreet');">
   <div id="twitterstreet" class="hidden">
     <img src="http://657b072aab060d50f8ce-d7abb53cb376b4947d77643d4b4a48d3.r79.cf1.rackcdn.com/27572_Twitter4%20Tweet%20Details%20View%202.png" width="400px" />
   </div>
-</a>
+</a> -->
 
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <!-- Changes into lightbox -->
-<div id="back">
-<!--   <iframe src="http://www.bbc.com/news/world-asia-26806791"></iframe>
- --></div>
+<div id="back"> </div>
 
-<div id="paper" style="width: 300px; height: 300px; background-color: blue;">
-</div>
+<!-- <div id="paper" style="width: 300px; height: 300px; background-color: blue;">
+</div> -->
 
 <script type="text/javascript">
   var v = document.querySelector("video");

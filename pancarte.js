@@ -81,6 +81,9 @@ PancartePlayer.prototype.display = function(path) {
 PancartePlayer.prototype.pause = function() {
   this.video.pause();
 }
+/*Set the two vars in global scope, they will get their values on lines 101-102*/
+var recorderX = 200;
+var recorderY = 200;
 
 function putOverlayOnVideo(v) {
   var holder = document.createElement("div");
@@ -93,6 +96,9 @@ function putOverlayOnVideo(v) {
   holder.style.height = rect.height + "px";
   // holder.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
   console.log(rect);
+
+  recorderX = rect.width;
+  recorderY = rect.height;
   return holder;
 }
 
