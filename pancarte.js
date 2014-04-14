@@ -71,7 +71,7 @@ PancartePlayer.prototype.clear = function() {
 PancartePlayer.prototype.display = function(path) {
   var str = path2string(path);
   var _this = this;
-  this.svgelement = this.r.path(str).attr({stroke: "rgba(255, 255, 255, 0.5)", fill: "rgba(255, 255, 255, 0.3)"})
+  this.svgelement = this.r.path(str).attr({stroke: "rgba(0, 0, 0, 0.8)", fill: "rgba(255, 255, 255, 0.5)"})
                   .click(function() {
                     _this.callback.bind(_this)();
                     _this.pause();

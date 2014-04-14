@@ -11,33 +11,23 @@
   <script src="computer.js"></script>
   <script src="tweets.js"></script>
   <script src="window.js"></script>
+  <script src="tablet.js"></script>
 </head>
 <body>
 
-<video loop muted>
-<source src="p.webm"></source>
+<video id=main>
+<source src="flat.webm"></source>
+</video>
+<video src="intro.webm" id=intro autoplay>
 </video>
 
-<a href="javascript:unhide('twitterstreet');" id="twitter">Box to click to get Twitter</a>
-
-<a href="javascript:rehide('twitterstreet');">
-  <div id="twitterstreet" class="hidden">
-    <img src="http://657b072aab060d50f8ce-d7abb53cb376b4947d77643d4b4a48d3.r79.cf1.rackcdn.com/27572_Twitter4%20Tweet%20Details%20View%202.png" width="400px" />
-  </div>
-</a>
+<div id=back>
+</div>
 
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<!-- Changes into lightbox -->
-<div id="back">
-<!--   <iframe src="http://www.bbc.com/news/world-asia-26806791"></iframe>
- --></div>
-
-<div id="paper" style="width: 300px; height: 300px; background-color: blue;">
-</div>
-
 <script type="text/javascript">
-  var v = document.querySelector("video");
+  var v = document.querySelector("#main");
   function rehide(divID) {
     var div = document.querySelector("#twitterstreet");
     div.addEventListener("click", function() {
@@ -76,7 +66,7 @@
   var paper = document.getElementById("paper");
   var back = document.getElementById("back");
 
-
+  function mainmain() {
   // newspaper
   var pcrt_paper = new PancartePlayer(journal_pts, v, function () {
     back.style.display = "block";
@@ -161,17 +151,14 @@ pcrt_flyer.play();
 
 pcrt_computer.play();
 
-  var pcrt_window = new PancartePlayer(window_pts, v, function () {
-    back.style.display = "block";
-    if (v.currentTime < 8.0) {
-      console.log("nada");
-    } else if (v.currentTime < 258.15){
-      var videoUrl = "tv-before.webm";
-    } else if (v.currentTime < 290) {
-      var videoUrl = "tv-before.webm";
-    }
-    back.innerHTML = "<video src=\" " + videoUrl + " \" style=\"width:100%\" autoplay></video>";
-
+var pcrt_window = new PancartePlayer(window_pts, v, function () {
+  back.style.display = "block";
+  if (v.currentTime < 267.0) {
+    console.log("nada");
+  } else if (v.currentTime < 290){
+    var windowUrl = "window.webm";
+  }
+  back.innerHTML = "<video src=\" " + windowUrl + " \" style=\"width:100%\" autoplay></video>";
     window.addEventListener("keypress", function(e) {
       // esc. dismisses the box and resumes playback
       if (e.keyCode == 27) {
@@ -182,9 +169,39 @@ pcrt_computer.play();
         }
       }
     });
-  });
+});
 
 pcrt_window.play();
+
+var pcrt_tablet = new PancartePlayer(tablet_pts, v, function () {
+  back.style.display = "block";
+  if (v.currentTime < 8.0) {
+    console.log("nada");
+  } else if (v.currentTime < 258.15){
+    var tabletUrl = "http://www.theguardian.com/news/datablog/interactive/2012/apr/23/french-election-results-map-listed";
+  } else if (v.currentTime < 290) {
+    var tabletUrl = "http://www.theguardian.com/news/datablog/interactive/2012/may/07/france-election-results-map-round-two";
+  }
+  back.innerHTML = "<iframe class=lalala src=\" " + tabletUrl + " \"></iframe>";
+    window.addEventListener("keypress", function(e) {
+      // esc. dismisses the box and resumes playback
+      if (e.keyCode == 27) {
+        if (back.style.display != "none") {
+          back.style.display = "none";
+          back.innerHTML = "";
+          pcrt_paper.play();
+        }
+      }
+    });
+});
+
+pcrt_tablet.play();
+  }
+
+document.getElementById("intro").addEventListener("ended", function(e) {
+  e.target.remove();
+  mainmain();
+});
 
 </script>
 </body>
