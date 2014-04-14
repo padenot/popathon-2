@@ -20,6 +20,20 @@ function PancartePlayer(timecode, video, callback, events) {
   // sorted by time
   this.events = events || [];
   this.svgelement = null;
+
+  // la crotte
+  var playerX = video.getBoundingClientRect().width;
+  var playerY = video.getBoundingClientRect().height;
+  console.log(playerX);
+  console.log(playerY);
+
+  for (var i = 0; i < timecode.length; i++) {
+    var points = timecode[i];
+    for (var j = 0; j < points.length; j++) {
+      points[j].x *= ( playerX / 1680 );
+      points[j].y *= ( playerY / 945);
+    };
+  };
 }
 
 PancartePlayer.prototype.tick = function() {
@@ -82,6 +96,7 @@ PancartePlayer.prototype.pause = function() {
   this.video.pause();
 }
 
+
 function putOverlayOnVideo(v) {
   var holder = document.createElement("div");
   holder.style.position = "absolute";
@@ -93,6 +108,7 @@ function putOverlayOnVideo(v) {
   holder.style.height = rect.height + "px";
   // holder.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
   console.log(rect);
+
   return holder;
 }
 
