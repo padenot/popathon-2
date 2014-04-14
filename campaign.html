@@ -15,11 +15,13 @@
 </head>
 <body>
 
-<video id=main>
-<source src="flat.webm"></source>
-</video>
 <video src="intro.webm" id=intro autoplay>
 </video>
+<div id=centerer>
+  <video id=main>
+    <source src="flat.webm"></source>
+  </video>
+</div>
 
 <div id=back>
 </div>
@@ -27,7 +29,6 @@
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <script type="text/javascript">
-  var v = document.querySelector("#main");
   function rehide(divID) {
     var div = document.querySelector("#twitterstreet");
     div.addEventListener("click", function() {
@@ -63,6 +64,7 @@
     document.querySelector("#twitter").style.display = "none";
   }
 
+  var v = document.getElementById("main");
   var paper = document.getElementById("paper");
   var back = document.getElementById("back");
 
@@ -200,7 +202,15 @@ pcrt_tablet.play();
 
 document.getElementById("intro").addEventListener("ended", function(e) {
   e.target.remove();
-  mainmain();
+  document.getElementById("centerer").style.display = "block";
+  var v = document.getElementById("main");
+  if (v.readyState >= v.HAVE_METADATA) {
+    mainmain();
+  } else {
+    v.addEventListener("loadedmetadata", function() {
+      mainmain();
+    });
+  }
 });
 
 </script>

@@ -21,19 +21,28 @@ function PancartePlayer(timecode, video, callback, events) {
   this.events = events || [];
   this.svgelement = null;
 
-  // la crotte
-  var playerX = video.getBoundingClientRect().width;
-  var playerY = video.getBoundingClientRect().height;
-  console.log(playerX);
-  console.log(playerY);
+  var vrect = video.getBoundingClientRect()
+  this.playerWidth = vrect.width;
+  this.playerHeight = vrect.height;
+  this.originalPlayerWidth = timecode["width"];
+  this.originalPlayerHeight = timecode["height"];
+  this.playerX = 0;
+  this.playerY = 0;
 
-  for (var i = 0; i < timecode.length; i++) {
-    var points = timecode[i];
-    for (var j = 0; j < points.length; j++) {
-      points[j].x *= ( playerX / 1680 );
-      points[j].y *= ( playerY / 945);
-    };
-  };
+  var _this = this;
+  // This does not really work.
+  window.addEventListener("resize", function() {
+    _this.invalidate = true;
+    var vrect = video.getBoundingClientRect();
+    _this.playerWidth = vrect.width;
+    _this.playerHeight = vrect.height;
+    _this.playerX = vrect.top;
+    _this.playerY = vrect.left;
+    _this.r.setSize(_this.playerWidth, _this.playerHeight);
+  });
+
+  delete timecode.width;
+  delete timecode.height;
 }
 
 PancartePlayer.prototype.tick = function() {
@@ -53,11 +62,22 @@ PancartePlayer.prototype.tick = function() {
     }
     prev = time;
   }
-  if (this.lastPickedTime != prev) {
+  if (this.lastPickedTime != prev || this.invalidate) {
+    this.invalidate = false;
     if (this.svgelement) {
       this.svgelement.remove();
     }
-    this.display(this.timecode[prev]);
+    var a = this.timecode[prev];
+    var points = [];
+    for (var i = 0; i < a.length; i++) {
+      points.push({x: a[i].x, y:a[i].y});
+    }
+    var ratio = this.playerWidth / this.originalPlayerWidth;
+    for (var i = 0; i < points.length; i++) {
+      points[i].x = points[i].x * ratio + this.playerX;
+      points[i].y = points[i].y * ratio + this.playerY;
+    }
+    this.display(points);
   }
 
   if (this.events.length > 0 && this.events[0].time < this.video.currentTime) {
