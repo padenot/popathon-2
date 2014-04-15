@@ -76,16 +76,13 @@
      if (v.currentTime < 8.0) {
      var iframeUrl =
      "http://tempsreel.nouvelobs.com/sondage-presidentielle-2012/20120430.OBS7359/sondage-hollande-en-tete-a-53-sarkozy-se-rapproche.html";
-     } else if (v.currentTime >= 8) {
+     } else if (v.currentTime >= 8 && v.currentTime < 123.3) {
      var iframeUrl =
      "http://www.bloomberg.com/news/2012-05-03/french-borrowing-costs-drop-at-last-bond-sale-before-vote.html";
-     } else if (v.currentTime > 123.3) {
+     } else if (v.currentTime > 123.3 && v.currentTime < 221.94) {
      var iframeUrl =
      "http://www.lemonde.fr/idees/article/2012/05/04/vivre-ensemble_1695879_3232.html";
-     } else if (v.currentTime > 221.94) {
-     var iframeUrl =
-     "http://www.leparisien.fr/election-presidentielle-2012/candidats/vie-privee-vie-publique-portrait-de-francois-hollande-24-06-2011-1506848.php";
-     } else if (v.currentTime > 246.6) {
+     }  else if (v.currentTime > 221.94 && v.currentTime < 271.26) {
      var iframeUrl =
      "http://www.leparisien.fr/election-presidentielle-2012/en-images-hollande-elu-la-bastille-en-liesse-06-05-2012-1986976.php?pic=5#infoBulles1";
      } else if (v.currentTime > 271.26) {
@@ -132,9 +129,9 @@ pcrt_flyer.play();
     back.style.display = "block";
     if (v.currentTime < 8.0) {
       console.log("nada");
-    } else if (v.currentTime < 258.15){
+    } else if (v.currentTime > 8.0){
       var videoUrl = "tv-before.webm";
-    } else if (v.currentTime < 290) {
+    } else if (v.currentTime > 258.15) {
       var videoUrl = "tv-after.webm";
     }
     back.innerHTML = "<video src=\" " + videoUrl + " \" style=\"width:100%\" autoplay></video>";
@@ -157,7 +154,7 @@ var pcrt_window = new PancartePlayer(window_pts, v, function () {
   back.style.display = "block";
   if (v.currentTime < 267.0) {
     console.log("nada");
-  } else if (v.currentTime < 290){
+  } else if (v.currentTime > 267.0){
     var windowUrl = "window.webm";
   }
   back.innerHTML = "<video src=\" " + windowUrl + " \" style=\"width:100%\" autoplay></video>";
@@ -179,9 +176,9 @@ var pcrt_tablet = new PancartePlayer(tablet_pts, v, function () {
   back.style.display = "block";
   if (v.currentTime < 8.0) {
     console.log("nada");
-  } else if (v.currentTime < 258.15){
+  } else if (v.currentTime > 8.0 && v.currentTime < 258.15){
     var tabletUrl = "http://www.theguardian.com/news/datablog/interactive/2012/apr/23/french-election-results-map-listed";
-  } else if (v.currentTime < 290) {
+  } else if (v.currentTime > 258.15) {
     var tabletUrl = "http://www.theguardian.com/news/datablog/interactive/2012/may/07/france-election-results-map-round-two";
   }
   back.innerHTML = "<iframe class=lalala src=\" " + tabletUrl + " \"></iframe>";
