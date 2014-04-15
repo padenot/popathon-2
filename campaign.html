@@ -129,7 +129,7 @@ pcrt_flyer.play();
     back.style.display = "block";
     if (v.currentTime < 8.0) {
       console.log("nada");
-    } else if (v.currentTime > 8.0){
+    } else if (v.currentTime > 8.1 && v.currentTime < 258){
       var videoUrl = "tv-before.webm";
     } else if (v.currentTime > 258.15) {
       var videoUrl = "tv-after.webm";
